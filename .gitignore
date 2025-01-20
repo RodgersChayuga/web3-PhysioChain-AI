@@ -11,6 +11,8 @@ frontend/.yarn/install-state.gz
 # testing
 frontend/coverage
 
+frontend/*.yaml
+
 # next.js
 frontend/.next/
 frontend/out/
