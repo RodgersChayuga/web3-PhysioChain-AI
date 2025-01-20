@@ -1,0 +1,33 @@
+graph TB
+    subgraph Frontend["Frontend Layer (Next.js)"]
+        UI[Web Interface]
+        W3[Web3 Integration]
+        Components[React Components]
+    end
+
+    subgraph Blockchain["Blockchain Layer (Lisk)"]
+        SC1[PhysioTherapistRegistry]
+        SC2[TreatmentManager]
+        SC3[PaymentProcessor]
+    end
+
+    subgraph Storage["Storage Layer"]
+        IPFS[IPFS Storage]
+    end
+
+    UI --> W3
+    Components --> W3
+    W3 --> SC1
+    W3 --> SC2
+    W3 --> SC3
+    W3 --> IPFS
+    SC1 --> IPFS
+    SC2 --> IPFS
+
+    classDef frontend fill:#f9f,stroke:#333,stroke-width:2px
+    classDef blockchain fill:#bbf,stroke:#333,stroke-width:2px
+    classDef storage fill:#bfb,stroke:#333,stroke-width:2px
+    
+    class UI,W3,Components frontend
+    class SC1,SC2,SC3 blockchain
+    class IPFS storage

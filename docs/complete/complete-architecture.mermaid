@@ -1,0 +1,70 @@
+graph TB
+    subgraph Frontend["Frontend Layer"]
+        UI[Web Interface]
+        W3[Web3 Integration]
+        Components[React Components]
+        Mobile[Mobile Interface]
+        Analytics[Analytics Dashboard]
+    end
+
+    subgraph Blockchain["Blockchain Layer"]
+        SC1[PhysioRegistry]
+        SC2[TreatmentManager]
+        SC3[PaymentProcessor]
+        SC4[RewardSystem]
+    end
+
+    subgraph AI["AI Layer"]
+        PoseAnalysis[Pose Analysis]
+        ProgressTracker[Progress Tracking]
+        Recommendations[AI Recommendations]
+    end
+
+    subgraph Storage["Storage Layer"]
+        IPFS[IPFS Storage]
+        Cache[Edge Cache]
+    end
+
+    subgraph Integration["Integration Layer"]
+        API[API Gateway]
+        subgraph External["External Systems"]
+            Wearables[Wearable Devices]
+            EHR[EHR Systems]
+            Insurance[Insurance Systems]
+        end
+    end
+
+    UI --> W3
+    Mobile --> W3
+    Components --> W3
+    Analytics --> W3
+    W3 --> SC1
+    W3 --> SC2
+    W3 --> SC3
+    W3 --> SC4
+    
+    Components --> AI
+    Mobile --> AI
+    PoseAnalysis --> ProgressTracker
+    ProgressTracker --> Recommendations
+    
+    W3 --> IPFS
+    AI --> IPFS
+    IPFS --> Cache
+    
+    API --> External
+    External --> AI
+    AI --> API
+    W3 --> API
+
+    classDef frontend fill:#f9f,stroke:#333,stroke-width:2px
+    classDef blockchain fill:#bbf,stroke:#333,stroke-width:2px
+    classDef ai fill:#fbf,stroke:#333,stroke-width:2px
+    classDef storage fill:#bfb,stroke:#333,stroke-width:2px
+    classDef integration fill:#ff9,stroke:#333,stroke-width:2px
+    
+    class UI,W3,Components,Mobile,Analytics frontend
+    class SC1,SC2,SC3,SC4 blockchain
+    class PoseAnalysis,ProgressTracker,Recommendations ai
+    class IPFS,Cache storage
+    class API,Wearables,EHR,Insurance integration

@@ -1,0 +1,45 @@
+erDiagram
+    Patient ||--o{ Treatment : "receives"
+    Patient {
+        string profileHash
+        uint256 rewardPoints
+    }
+
+    Therapist ||--o{ Treatment : "manages"
+    Therapist {
+        string profileHash
+        string specialization
+    }
+
+    Treatment ||--o{ ExercisePlan : "contains"
+    Treatment {
+        uint256 treatmentId
+        datetime startDate
+        datetime endDate
+    }
+
+    ExercisePlan ||--o{ Exercise : "consists of"
+    ExercisePlan {
+        string frequency
+        boolean isActive
+    }
+
+    Exercise ||--o{ ExerciseSession : "tracked in"
+    Exercise {
+        string name
+        string instructionsHash
+        uint256 rewardPoints
+    }
+
+    ExerciseSession ||--|| ProgressAnalytics : "generates"
+    ExerciseSession {
+        float formAccuracy
+        string videoHash
+        datetime timestamp
+    }
+
+    Patient ||--|| RewardAccount : "owns"
+    RewardAccount {
+        uint256 totalPoints
+        uint256 availablePoints
+    }
