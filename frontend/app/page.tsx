@@ -2,16 +2,29 @@
 
 import React, { useState } from 'react';
 import {
-  BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
+  // BarChart, 
+  // Bar, 
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, PieChart, Pie, Cell, RadarChart, Radar, PolarGrid,
   PolarAngleAxis, PolarRadiusAxis
 } from 'recharts';
 import {
-  Calendar, Activity, Award, Clock, Users, Video,
-  TrendingUp, CheckCircle, AlertCircle, Bell, Settings,
-  ChevronDown, Play, Pause, RotateCcw, Filter, Download,
-  ThumbsUp, ThumbsDown, MessageSquare, LucideIcon
+  // Calendar, 
+  // AlertCircle, 
+  // Users, 
+  // TrendingUp, 
+  // ChevronDown, Play, Pause, RotateCcw, 
+  // ThumbsDown, 
+  Bell, Settings,
+  Activity,
+  Award, Clock,
+  Video,
+  CheckCircle,
+  Filter, Download,
+  ThumbsUp,
+  MessageSquare, LucideIcon
 } from 'lucide-react';
+import Image from 'next/image';
 
 // Mock data
 const mockProgressData = [
@@ -114,7 +127,7 @@ export default function Dashboard() {
                 <NotificationsPanel show={showNotifications} notifications={notifications} />
               </div>
               <Settings className="w-5 h-5 text-gray-600 cursor-pointer" />
-              <img src="/api/placeholder/32/32" alt="Profile" className="rounded-full" />
+              <Image src="/img/profile.JPG" width={32} height={32} alt="Profile" className="rounded-full" />
             </div>
           </div>
         </div>
