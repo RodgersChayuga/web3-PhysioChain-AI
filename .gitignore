@@ -26,6 +26,7 @@ frontend/*.pem
 frontend/npm-debug.log*
 frontend/yarn-debug.log*
 frontend/yarn-error.log*
+frontend/*.yaml
 
 # local env files
 frontend/.env*.local
