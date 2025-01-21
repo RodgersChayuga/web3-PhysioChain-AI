@@ -1,0 +1,18 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "frontend/package.json",
+            "use": "@vercel/node"
+        }
+    ],
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/frontend/$1"
+        }
+    ],
+    "buildCommand": "cd frontend && pnpm install && pnpm build",
+    "outputDirectory": "frontend/.next",
+    "installCommand": "cd frontend && pnpm install"
+}
