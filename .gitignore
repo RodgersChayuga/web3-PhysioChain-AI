@@ -11,6 +11,7 @@ frontend/.yarn/install-state.gz
 # testing
 frontend/coverage
 
+# YAML files
 frontend/*.yaml
 
 # next.js
@@ -28,7 +29,6 @@ frontend/*.pem
 frontend/npm-debug.log*
 frontend/yarn-debug.log*
 frontend/yarn-error.log*
-frontend/*.yaml
 
 # local env files
 frontend/.env*.local
