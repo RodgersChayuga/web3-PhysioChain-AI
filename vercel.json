@@ -1,0 +1,21 @@
+{
+    "version": 2,
+    "git": {
+        "submodules": true
+    },
+    "builds": [
+        {
+            "src": "frontend/package.json",
+            "use": "@vercel/node"
+        }
+    ],
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/frontend/$1"
+        }
+    ],
+    "buildCommand": "cd frontend && npm install && npm run build",
+    "outputDirectory": "frontend/build",
+    "installCommand": "cd frontend && npm install"
+}

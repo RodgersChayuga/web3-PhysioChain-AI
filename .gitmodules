@@ -1,0 +1,4 @@
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/RodgersChayuga/web3-PhysioChain-AI
+	branch = frontend
