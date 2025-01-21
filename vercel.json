@@ -11,7 +11,7 @@
             "dest": "/frontend"
         }
     ],
-    "installCommand": "npm install --prefix frontend",
-    "buildCommand": "npm run build --prefix frontend",
+    "installCommand": "pnpm install --prefix frontend",
+    "buildCommand": "pnpm run build --prefix frontend",
     "outputDirectory": "frontend/.next"
 }
