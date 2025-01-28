@@ -1,0 +1,180 @@
+```mermaid
+erDiagram
+    Patient ||--o{ Treatment_Plan : "has"
+    Patient ||--o{ Exercise_Session : "performs"
+    Patient ||--o{ Token_Reward : "earns"
+    Patient ||--o{ Data_Access_Grant : "controls"
+    Patient ||--o{ Chat_Session : "participates in"
+    
+    Physiotherapist ||--o{ Treatment_Plan : "creates"
+    Physiotherapist ||--o{ Progress_Report : "generates"
+    Physiotherapist ||--o{ Data_Access_Grant : "receives"
+    Physiotherapist ||--o{ Chat_Session : "manages"
+    
+    Treatment_Plan ||--|{ Exercise : "contains"
+    Treatment_Plan ||--o{ Progress_Report : "tracks"
+    Treatment_Plan ||--o{ Achievement : "unlocks"
+    
+    Exercise ||--o{ Exercise_Session : "validated in"
+    Exercise_Session ||--o{ AI_Validation : "analyzed by"
+    Exercise_Session ||--o{ Token_Reward : "triggers"
+    Exercise_Session ||--o{ Voice_Guidance : "guided by"
+    
+    Insurance_Provider ||--o{ Treatment_Plan : "covers"
+    Insurance_Provider ||--o{ Smart_Contract : "processes"
+    Insurance_Provider ||--o{ Claim : "processes"
+    
+    Smart_Contract ||--o{ Token_Reward : "manages"
+    Smart_Contract ||--o{ Data_Access_Grant : "enforces"
+    Smart_Contract ||--o{ Claim : "automates"
+    
+    AI_Assistant ||--o{ Chat_Session : "powers"
+    AI_Assistant ||--o{ Voice_Guidance : "provides"
+    AI_Assistant ||--o{ Exercise_Session : "assists"
+    
+    Patient {
+        string wallet_address PK
+        string decentralized_id
+        string encrypted_personal_data
+        string contact_info
+        json achievement_progress
+        int total_tokens
+    }
+    
+    Physiotherapist {
+        string wallet_address PK
+        string decentralized_id
+        string credentials
+        string specialization
+        json performance_metrics
+    }
+    
+    Treatment_Plan {
+        string plan_id PK
+        string patient_id FK
+        string doctor_id FK
+        string nft_token_id
+        date start_date
+        date end_date
+        string status
+        json gamification_rules
+    }
+    
+    Exercise {
+        string exercise_id PK
+        string plan_id FK
+        string name
+        string description
+        string ai_model_reference
+        int required_sets
+        int required_reps
+        json form_requirements
+        string difficulty_level
+    }
+    
+    Exercise_Session {
+        string session_id PK
+        string exercise_id FK
+        string patient_id FK
+        datetime timestamp
+        int completed_sets
+        int completed_reps
+        float accuracy_score
+        json real_time_feedback
+    }
+    
+    AI_Validation {
+        string validation_id PK
+        string session_id FK
+        float pose_accuracy
+        string form_feedback
+        json movement_data
+        json improvement_suggestions
+    }
+    
+    Token_Reward {
+        string reward_id PK
+        string patient_id FK
+        string session_id FK
+        int token_amount
+        datetime timestamp
+        string status
+        string reward_type
+    }
+    
+    Data_Access_Grant {
+        string grant_id PK
+        string patient_id FK
+        string doctor_id FK
+        datetime start_time
+        datetime end_time
+        string access_level
+        json access_history
+    }
+    
+    Progress_Report {
+        string report_id PK
+        string plan_id FK
+        datetime generated_at
+        json metrics
+        string ai_insights
+        json trend_analysis
+    }
+    
+    Insurance_Provider {
+        string provider_id PK
+        string name
+        string smart_contract_address
+        json coverage_rules
+    }
+    
+    Smart_Contract {
+        string contract_address PK
+        string contract_type
+        string blockchain_network
+        json abi
+        json gas_optimization_rules
+    }
+    
+    Chat_Session {
+        string session_id PK
+        string user_id FK
+        datetime start_time
+        datetime end_time
+        json chat_history
+        string session_type
+    }
+    
+    Voice_Guidance {
+        string guidance_id PK
+        string session_id FK
+        string audio_type
+        json voice_commands
+        json patient_responses
+    }
+    
+    AI_Assistant {
+        string assistant_id PK
+        string model_version
+        json capabilities
+        json language_support
+    }
+    
+    Achievement {
+        string achievement_id PK
+        string plan_id FK
+        string name
+        string description
+        int token_reward
+        json requirements
+    }
+    
+    Claim {
+        string claim_id PK
+        string provider_id FK
+        string treatment_plan_id FK
+        datetime submission_date
+        string status
+        json verification_data
+    }
+```
