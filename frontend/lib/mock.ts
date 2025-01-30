@@ -1,4 +1,4 @@
-import { AIInsight, Patient, ProgressData, PatientVitals } from "@/types/patient";
+import { AIInsight, Patient, ProgressData, PatientVitals } from "@/types/doctor";
 
 // Extended mock data
 export const mockPatients: Patient[] = [
