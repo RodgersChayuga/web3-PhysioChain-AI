@@ -8,31 +8,25 @@ import { QuickStats } from "@/components/doctor/QuickStats";
 import { AdherenceChart } from "@/components/doctor/AdherenceChart";
 import { ActivityItem } from "@/components/doctor/ActivityItem";
 import { TabValue } from "@/types/doctor";
-import { AIInsights } from "@/components/doctor/AIInsights";
+import AIInsightsSection from "@/components/doctor/AIInsightsSection";
 import PatientsTab from "@/components/PatientTab";
 import ComingSoonPage from "@/components/ComingSoon";
+import { adherenceData } from "@/lib/mock";
+import { Leaderboard } from "@/components/doctor/LeaderboardEntry";
 
 const Dashboard: React.FC = () => {
     const [activeTab, setActiveTab] = useState<TabValue>('overview');
 
-    const mockData = {
-        adherenceData: [
-            { name: 'Week 1', rate: 65 },
-            { name: 'Week 2', rate: 78 },
-            { name: 'Week 3', rate: 85 },
-            { name: 'Week 4', rate: 82 },
-            { name: 'Week 5', rate: 90 }
-        ],
-        quickStats: {
-            activePatients: "124",
-            adherenceRate: "85%",
-            sessionsToday: "8",
-            patientMilestones: "15"
-        }
+    const quickStats = {
+        activePatients: "124",
+        adherenceRate: "85%",
+        sessionsToday: "8",
+        patientMilestones: "15"
+
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 p-6">
+        <div className="min-h-screen  p-6">
             {/* Header */}
             <div className="mb-8 flex justify-between items-center">
                 <div>
@@ -44,70 +38,73 @@ const Dashboard: React.FC = () => {
                     <Settings className="h-6 w-6 text-gray-500 cursor-pointer" />
                 </div>
             </div>
+            <div className="flex gap-4">
+                {/* <Leaderboard /> */}
 
-            {/* Main Navigation */}
-            <Tabs value={activeTab} onValueChange={setActiveTab as (value: string) => void} className="space-y-6">
-                <TabsList className="grid grid-cols-4 lg:grid-cols-6 gap-4">
-                    <TabsTrigger value="overview">Overview</TabsTrigger>
-                    <TabsTrigger value="patients">Patients</TabsTrigger>
-                    <TabsTrigger value="analytics">Analytics</TabsTrigger>
+
+                {/* Main Navigation */}
+                <Tabs value={activeTab} onValueChange={setActiveTab as (value: string) => void} className="space-y-6 flex-1">
+                    <TabsList className="grid grid-cols-4 lg:grid-cols-6 gap-4">
+                        <TabsTrigger value="overview">Overview</TabsTrigger>
+                        <TabsTrigger value="patients">Patients</TabsTrigger>
+                        {/* <TabsTrigger value="analytics">Analytics</TabsTrigger>
                     <TabsTrigger value="schedule">Schedule</TabsTrigger>
                     <TabsTrigger value="ai-insights">AI Insights</TabsTrigger>
-                    <TabsTrigger value="rewards">Rewards</TabsTrigger>
-                </TabsList>
+                    <TabsTrigger value="rewards">Rewards</TabsTrigger> */}
+                    </TabsList>
 
-                {/* Overview Tab */}
-                <TabsContent value="overview" className="space-y-6">
-                    <QuickStats data={mockData.quickStats} />
+                    {/* Overview Tab */}
+                    <TabsContent value="overview" className="space-y-6">
+                        <QuickStats data={quickStats} />
 
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <AdherenceChart data={mockData.adherenceData} />
-                        <AIInsights />
-                    </div>
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <AdherenceChart data={adherenceData} />
+                            <AIInsightsSection />
+                        </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Recent Activity</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="space-y-4">
-                                    {[1, 2, 3].map((i) => (
-                                        <ActivityItem
-                                            key={i}
-                                            icon={Activity}
-                                            title="Patient completed session"
-                                            subtitle="John D. • 2h ago"
-                                        />
-                                    ))}
-                                </div>
-                            </CardContent>
-                        </Card>
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Recent Activity</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="space-y-4">
+                                        {[1, 2, 3].map((i) => (
+                                            <ActivityItem
+                                                key={i}
+                                                icon={Activity}
+                                                title="Patient completed session"
+                                                subtitle="John D. • 2h ago"
+                                            />
+                                        ))}
+                                    </div>
+                                </CardContent>
+                            </Card>
 
-                        <Card>
-                            <CardHeader>
-                                <CardTitle>Upcoming Sessions</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="space-y-4">
-                                    {[1, 2, 3].map((i) => (
-                                        <ActivityItem
-                                            key={i}
-                                            icon={Calendar}
-                                            title="Lower Back Assessment"
-                                            subtitle="Sarah M. • 2:30 PM"
-                                        />
-                                    ))}
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </div>
-                </TabsContent>
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Upcoming Sessions</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="space-y-4">
+                                        {[1, 2, 3].map((i) => (
+                                            <ActivityItem
+                                                key={i}
+                                                icon={Calendar}
+                                                title="Lower Back Assessment"
+                                                subtitle="Sarah M. • 2:30 PM"
+                                            />
+                                        ))}
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </div>
+                    </TabsContent>
 
-                <TabsContent value="patients" className="space-y-6">
-                    <PatientsTab />
-                </TabsContent>
-                <TabsContent value="analytics" className="space-y-6">
+                    <TabsContent value="patients" className="space-y-6">
+                        <PatientsTab />
+                    </TabsContent>
+                    {/* <TabsContent value="analytics" className="space-y-6">
                     <ComingSoonPage />
                 </TabsContent>
                 <TabsContent value="schedule" className="space-y-6">
@@ -118,8 +115,9 @@ const Dashboard: React.FC = () => {
                 </TabsContent>
                 <TabsContent value="rewards" className="space-y-6">
                     <ComingSoonPage />
-                </TabsContent>
-            </Tabs>
+                </TabsContent> */}
+                </Tabs>
+            </div>
         </div>
     );
 };

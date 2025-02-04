@@ -1,4 +1,5 @@
-import { AIInsight, Patient, ProgressData, PatientVitals } from "@/types/doctor";
+import { AIInsight, Patient, ProgressData, PatientVitals, AdherenceData } from "@/types/doctor";
+import { ChartLine, TriangleAlert, UserCheck } from "lucide-react";
 
 // Extended mock data
 export const mockPatients: Patient[] = [
@@ -470,4 +471,29 @@ export const mockVitals: PatientVitals[] = [
     { heartRate: 75, breathing: 16, movement: 85, painLevel: 2, timestamp: "10:00" },
     { heartRate: 78, breathing: 18, movement: 82, painLevel: 3, timestamp: "10:05" },
     { heartRate: 76, breathing: 17, movement: 88, painLevel: 2, timestamp: "10:10" },
+];
+
+export const adherenceData: AdherenceData[] = [
+    // Daily Data
+    { name: "Day 1", rate: 75, notes: "Good start!" },
+    { name: "Day 2", rate: 80 },
+    { name: "Day 3", rate: 85 },
+    { name: "Day 4", rate: 78, notes: "Minor drop in adherence." },
+    { name: "Day 5", rate: 90 },
+    { name: "Day 6", rate: 88 },
+    { name: "Day 7", rate: 92, notes: "Excellent finish to the week!" },
+
+    // Weekly Data
+    { name: "Week 1", rate: 82, notes: "Consistent progress." },
+    { name: "Week 2", rate: 88 },
+    { name: "Week 3", rate: 85, notes: "Slight dip due to holidays." },
+    { name: "Week 4", rate: 90 },
+    { name: "Week 5", rate: 92, notes: "Strong adherence this week!" },
+
+    // Monthly Data
+    { name: "Month 1", rate: 85, notes: "Solid start to the treatment plan." },
+    { name: "Month 2", rate: 88 },
+    { name: "Month 3", rate: 90, notes: "Excellent adherence this month!" },
+    { name: "Month 4", rate: 92 },
+    { name: "Month 5", rate: 95, notes: "Outstanding progress overall!" },
 ];

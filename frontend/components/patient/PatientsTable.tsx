@@ -1,4 +1,5 @@
 // components/PatientsTable.tsx
+
 import React, { useState, useMemo } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -7,13 +8,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuLabel,
-    DropdownMenuRadioGroup,
-    DropdownMenuRadioItem,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger
+    DropdownMenuItem,
+    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Filter, MoreVertical, TrendingUp } from 'lucide-react';
+import { Filter, MoreVertical, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import { Patient } from "@/types/doctor";
 
 interface PatientsTableProps {
@@ -30,20 +28,48 @@ export const PatientsTable: React.FC<PatientsTableProps> = ({
     // State management
     const [sortConfig, setSortConfig] = useState<{ key: keyof Patient; direction: 'asc' | 'desc' }>({
         key: 'name',
-        direction: 'asc'
+        direction: 'asc',
     });
     const [currentPage, setCurrentPage] = useState(1);
     const [searchCriteria, setSearchCriteria] = useState<keyof Patient>('name');
-    const [filterStatus, setFilterStatus] = useState<string>('all');
-    const [filterProgress, setFilterProgress] = useState<string>('all');
+    const [filterStatus, setFilterStatus] = useState<'all' | 'active' | 'inactive' | 'completed'>('all');
+    const [filterProgress, setFilterProgress] = useState<'all' | 'improving' | 'stable' | 'declining'>('all');
     const itemsPerPage = 10;
+
+    // Helper function for status color
+    const getStatusColor = (status: string): string => {
+        switch (status.toLowerCase()) {
+            case 'active':
+                return 'text-green-600';
+            case 'inactive':
+                return 'text-red-600';
+            case 'completed':
+                return 'text-blue-600';
+            default:
+                return 'text-gray-600';
+        }
+    };
+
+    // Helper function for progress color and icon
+    const getProgressColorAndIcon = (progress: string): { color: string; icon: JSX.Element } => {
+        switch (progress.toLowerCase()) {
+            case 'improving':
+                return { color: 'text-green-600', icon: <TrendingUp className="h-4 w-4 inline" /> };
+            case 'stable':
+                return { color: 'text-yellow-600', icon: <Minus className="h-4 w-4 inline" /> };
+            case 'declining':
+                return { color: 'text-red-600', icon: <TrendingDown className="h-4 w-4 inline" /> };
+            default:
+                return { color: 'text-gray-600', icon: <Minus className="h-4 w-4 inline" /> };
+        }
+    };
 
     // Filter patients based on search term and filters
     const filteredPatients = useMemo(() => {
-        return patients.filter(patient => {
+        return patients.filter((patient) => {
             const searchMatch = patient[searchCriteria]?.toString().toLowerCase().includes(searchTerm.toLowerCase());
-            const statusMatch = filterStatus === 'all' || patient.status === filterStatus;
-            const progressMatch = filterProgress === 'all' || patient.progress === filterProgress;
+            const statusMatch = filterStatus === 'all' || patient.status.toLowerCase() === filterStatus.toLowerCase();
+            const progressMatch = filterProgress === 'all' || patient.progress.toLowerCase() === filterProgress.toLowerCase();
             return searchMatch && statusMatch && progressMatch;
         });
     }, [patients, searchTerm, searchCriteria, filterStatus, filterProgress]);
@@ -53,7 +79,6 @@ export const PatientsTable: React.FC<PatientsTableProps> = ({
         const sorted = [...filteredPatients].sort((a, b) => {
             const aValue = a[sortConfig.key];
             const bValue = b[sortConfig.key];
-
             if (aValue < bValue) return sortConfig.direction === 'asc' ? -1 : 1;
             if (aValue > bValue) return sortConfig.direction === 'asc' ? 1 : -1;
             return 0;
@@ -78,144 +103,151 @@ export const PatientsTable: React.FC<PatientsTableProps> = ({
         });
     };
 
-    // Table header component
-    const TableSortHeader: React.FC<{ label: string; sortKey: keyof Patient }> = ({ label, sortKey }) => (
-        <TableHead
-            onClick={() => handleSort(sortKey)}
-            className="cursor-pointer hover:bg-gray-50"
-        >
-            <div className="flex items-center gap-1">
-                {label}
-                {sortConfig.key === sortKey && (
-                    <span>{sortConfig.direction === 'asc' ? '↑' : '↓'}</span>
-                )}
-            </div>
-        </TableHead>
-    );
-
     return (
-        <div className="space-y-4">
-            <div className="flex gap-4 mb-4">
-                <Select
-                    value={searchCriteria}
-                    onValueChange={(value: keyof Patient) => setSearchCriteria(value)}
-                >
-                    <SelectTrigger className="w-[200px]">
-                        <SelectValue placeholder="Search by..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="name">Name</SelectItem>
-                        <SelectItem value="condition">Condition</SelectItem>
-                        <SelectItem value="status">Status</SelectItem>
-                    </SelectContent>
-                </Select>
+        <Card>
+            <CardContent className="p-4">
+                {/* Filters */}
+                <div className="flex justify-between items-center mb-4">
+                    <div className="flex gap-4">
+                        {/* Search Criteria */}
+                        <Select value={searchCriteria} onValueChange={(value) => setSearchCriteria(value as keyof Patient)}>
+                            <SelectTrigger className="w-[180px]">
+                                <SelectValue placeholder="Search by..." />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="name">Name</SelectItem>
+                                <SelectItem value="condition">Condition</SelectItem>
+                                <SelectItem value="status">Status</SelectItem>
+                                <SelectItem value="progress">Progress</SelectItem>
+                            </SelectContent>
+                        </Select>
 
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="gap-2">
-                            <Filter size={16} />
-                            Filters
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                        <DropdownMenuLabel>Status</DropdownMenuLabel>
-                        <DropdownMenuRadioGroup value={filterStatus} onValueChange={setFilterStatus}>
-                            <DropdownMenuRadioItem value="all">All</DropdownMenuRadioItem>
-                            <DropdownMenuRadioItem value="Active">Active</DropdownMenuRadioItem>
-                            <DropdownMenuRadioItem value="Inactive">Inactive</DropdownMenuRadioItem>
-                            <DropdownMenuRadioItem value="Completed">Completed</DropdownMenuRadioItem>
-                        </DropdownMenuRadioGroup>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuLabel>Progress</DropdownMenuLabel>
-                        <DropdownMenuRadioGroup value={filterProgress} onValueChange={setFilterProgress}>
-                            <DropdownMenuRadioItem value="all">All</DropdownMenuRadioItem>
-                            <DropdownMenuRadioItem value="Improving">Improving</DropdownMenuRadioItem>
-                            <DropdownMenuRadioItem value="Stable">Stable</DropdownMenuRadioItem>
-                            <DropdownMenuRadioItem value="Declining">Declining</DropdownMenuRadioItem>
-                        </DropdownMenuRadioGroup>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </div>
+                        {/* Status Filter */}
+                        <Select value={filterStatus} onValueChange={(value) => setFilterStatus(value as 'all' | 'active' | 'inactive' | 'completed')}>
+                            <SelectTrigger className="w-[180px]">
+                                <SelectValue placeholder="Filter by Status" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="all">All</SelectItem>
+                                <SelectItem value="active">Active</SelectItem>
+                                <SelectItem value="inactive">Inactive</SelectItem>
+                                <SelectItem value="completed">Completed</SelectItem>
+                            </SelectContent>
+                        </Select>
 
-            <Card>
-                <CardContent className="p-0">
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableSortHeader label="Name" sortKey="name" />
-                                <TableSortHeader label="Condition" sortKey="condition" />
-                                <TableSortHeader label="Status" sortKey="status" />
-                                <TableSortHeader label="Progress" sortKey="progress" />
-                                <TableSortHeader label="Adherence" sortKey="adherenceRate" />
-                                <TableSortHeader label="Next Session" sortKey="nextSession" />
-                                <TableSortHeader label="Tokens Earned" sortKey="tokensEarned" />
-                                <TableHead>Actions</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {paginatedPatients.map((patient) => (
-                                <TableRow
-                                    key={patient.id}
-                                    className="cursor-pointer hover:bg-gray-50"
-                                    onClick={() => onSelectPatient(patient)}
-                                >
-                                    <TableCell className="font-medium">{patient.name}</TableCell>
+                        {/* Progress Filter */}
+                        <Select value={filterProgress} onValueChange={(value) => setFilterProgress(value as 'all' | 'improving' | 'stable' | 'declining')}>
+                            <SelectTrigger className="w-[180px]">
+                                <SelectValue placeholder="Filter by Progress" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="all">All</SelectItem>
+                                <SelectItem value="improving">Improving</SelectItem>
+                                <SelectItem value="stable">Stable</SelectItem>
+                                <SelectItem value="declining">Declining</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </div>
+                </div>
+
+                {/* Table */}
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableCell onClick={() => handleSort('name')} className="cursor-pointer hover:bg-gray-50">
+                                Name
+                            </TableCell>
+                            <TableCell onClick={() => handleSort('condition')} className="cursor-pointer hover:bg-gray-50">
+                                Condition
+                            </TableCell>
+                            <TableCell onClick={() => handleSort('status')} className="cursor-pointer hover:bg-gray-50">
+                                Status
+                            </TableCell>
+                            <TableCell onClick={() => handleSort('progress')} className="cursor-pointer hover:bg-gray-50">
+                                Progress
+                            </TableCell>
+                            <TableCell onClick={() => handleSort('adherenceRate')} className="cursor-pointer hover:bg-gray-50">
+                                Adherence Rate
+                            </TableCell>
+                            <TableCell onClick={() => handleSort('nextSession')} className="cursor-pointer hover:bg-gray-50">
+                                Next Session
+                            </TableCell>
+                            <TableCell onClick={() => handleSort('tokensEarned')} className="cursor-pointer hover:bg-gray-50">
+                                Tokens Earned
+                            </TableCell>
+                            <TableCell>Actions</TableCell>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {paginatedPatients.map((patient) => {
+                            const statusColor = getStatusColor(patient.status);
+                            const { color: progressColor, icon: progressIcon } = getProgressColorAndIcon(patient.progress);
+
+                            return (
+                                <TableRow key={patient.id}>
+                                    <TableCell>{patient.name}</TableCell>
                                     <TableCell>{patient.condition}</TableCell>
-                                    <TableCell>
-                                        <span className={`px-2 py-1 rounded-full text-sm ${patient.status === 'Active'
-                                            ? 'bg-green-100 text-green-800'
-                                            : 'bg-gray-100 text-gray-800'
-                                            }`}>
-                                            {patient.status}
-                                        </span>
-                                    </TableCell>
-                                    <TableCell>
-                                        <span className={`flex items-center gap-1 ${patient.progress === 'Improving'
-                                            ? 'text-green-600'
-                                            : patient.progress === 'Stable'
-                                                ? 'text-blue-600'
-                                                : 'text-red-600'
-                                            }`}>
-                                            <TrendingUp size={16} />
-                                            {patient.progress}
-                                        </span>
+                                    <TableCell className={statusColor}>{patient.status}</TableCell>
+                                    <TableCell className={progressColor}>
+                                        {progressIcon} {patient.progress}
                                     </TableCell>
                                     <TableCell>{patient.adherenceRate}%</TableCell>
                                     <TableCell>{patient.nextSession}</TableCell>
                                     <TableCell>{patient.tokensEarned} PHYSIO</TableCell>
                                     <TableCell>
-                                        <Button variant="ghost" size="icon">
-                                            <MoreVertical size={16} />
-                                        </Button>
+                                        {/* Quick Actions Dropdown */}
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button variant="ghost" size="sm">
+                                                    <MoreVertical className="h-4 w-4" />
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent align="end">
+                                                <DropdownMenuItem onClick={() => alert(`Schedule session for ${patient.name}`)}>
+                                                    Schedule Session
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem onClick={() => alert(`Send message to ${patient.name}`)}>
+                                                    Send Message
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem onClick={() => onSelectPatient(patient)}>
+                                                    View Details
+                                                </DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
                                     </TableCell>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </CardContent>
-            </Card>
+                            );
+                        })}
+                    </TableBody>
+                </Table>
 
-            <div className="flex items-center justify-between mt-4">
-                <p className="text-sm text-gray-500">
-                    Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, sortedPatients.length)} of {sortedPatients.length} results
-                </p>
-                <div className="flex gap-2">
-                    <Button
-                        variant="outline"
-                        onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                        disabled={currentPage === 1}
-                    >
-                        Previous
-                    </Button>
-                    <Button
-                        variant="outline"
-                        onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                        disabled={currentPage === totalPages}
-                    >
-                        Next
-                    </Button>
+                {/* Pagination */}
+                <div className="flex justify-between items-center mt-4">
+                    <p className="text-sm text-gray-600">
+                        Showing {((currentPage - 1) * itemsPerPage) + 1} to{' '}
+                        {Math.min(currentPage * itemsPerPage, sortedPatients.length)} of{' '}
+                        {sortedPatients.length} results
+                    </p>
+                    <div className="flex gap-2">
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                            disabled={currentPage === 1}
+                        >
+                            Previous
+                        </Button>
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                            disabled={currentPage === totalPages}
+                        >
+                            Next
+                        </Button>
+                    </div>
                 </div>
-            </div>
-        </div>
+            </CardContent>
+        </Card>
     );
 };

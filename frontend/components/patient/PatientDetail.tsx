@@ -7,52 +7,59 @@ import { AIInsightsPanel } from './AIInsightsPanel';
 import { BlockchainData } from './BlockchainData';
 import { TreatmentPlan } from './TreatmentPlan';
 import { PatientDetailProps } from "@/types/patient";
+import { RiskAlertsSection } from "../doctor/RiskAlertsSection";
 
 export const PatientDetail: React.FC<PatientDetailProps> = ({ patient, setSelectedPatient }) => {
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 ">
             <PatientHeader patient={patient} onBack={() => setSelectedPatient(null)} />
+            <div className="flex gap-4">
+                <div className="space-y-6 flex-1">
 
-            {/* Key Metrics */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <MetricCard
-                    icon={Activity}
-                    title="Adherence Rate"
-                    value={`${patient.adherenceRate}%`}
-                    color="text-blue-500"
-                />
-                <MetricCard
-                    icon={Award}
-                    title="Tokens Earned"
-                    value={`${patient.tokensEarned} PHYSIO`}
-                    color="text-yellow-500"
-                />
-                <MetricCard
-                    icon={Calendar}
-                    title="Next Session"
-                    value={patient.nextSession}
-                    color="text-green-500"
-                />
-                <MetricCard
-                    icon={TrendingUp}
-                    title="Progress"
-                    value={patient.progress}
-                    color="text-purple-500"
-                />
-            </div>
+                    {/* Key Metrics */}
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <MetricCard
+                            icon={Activity}
+                            title="Adherence Rate"
+                            value={`${patient.adherenceRate}%`}
+                            color="text-blue-500"
+                        />
+                        <MetricCard
+                            icon={Award}
+                            title="Tokens Earned"
+                            value={`${patient.tokensEarned} PHYSIO`}
+                            color="text-yellow-500"
+                        />
+                        <MetricCard
+                            icon={Calendar}
+                            title="Next Session"
+                            value={patient.nextSession}
+                            color="text-green-500"
+                        />
+                        <MetricCard
+                            icon={TrendingUp}
+                            title="Progress"
+                            value={patient.progress}
+                            color="text-purple-500"
+                        />
+                    </div>
 
-            {/* Progress Chart and AI Insights */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <ProgressChart />
-                <AIInsightsPanel />
-            </div>
+                    {/* Progress Chart and AI Insights */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <ProgressChart />
+                        <AIInsightsPanel />
+                    </div>
 
-            {/* Treatment Plan and Blockchain Data */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <TreatmentPlan />
-                <div className="space-y-6">
-                    <BlockchainData patientId={patient.id} />
+                    {/* Treatment Plan and Blockchain Data */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <TreatmentPlan />
+                        <div className="space-y-6">
+                            <BlockchainData patientId={patient.id} />
+                        </div>
+                    </div>
                 </div>
+                {/* Risk Alerts */}
+                <RiskAlertsSection />
             </div>
         </div>
     );

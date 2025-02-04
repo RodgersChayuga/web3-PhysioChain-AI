@@ -73,9 +73,11 @@ export interface BlockchainMetrics {
     networkHealth: string;
 }
 
+// Define the interface for granular adherence data
 export interface AdherenceData {
-    name: string;
-    rate: number;
+    name: string; // e.g., "Week 1", "Day 1", "Month 1"
+    rate: number; // Adherence rate (e.g., 85)
+    notes?: string; // Optional notes or insights
 }
 
 export interface StatCardProps {
@@ -96,7 +98,9 @@ export interface InsightItemProps {
     title: string;
     description: string;
     iconColor: string;
+    confidence?: number;
 }
+
 
 export interface MockData {
     adherenceData: AdherenceData[];
