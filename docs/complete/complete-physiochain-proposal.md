@@ -278,10 +278,10 @@ interface ExerciseRecorderProps {
   onComplete: (result: ValidationResult) => void;
 }
 
-export const ExerciseRecorder: React.FC<ExerciseRecorderProps> = ({
+export const ExerciseRecorder
   exerciseId,
   onComplete,
-}) => {
+}: ExerciseRecorderProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const { startValidation, stopValidation, isValidating } = useExerciseValidation();
   const { uploadToIPFS } = useIPFS();
