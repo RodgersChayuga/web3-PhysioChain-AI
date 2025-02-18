@@ -1,5 +1,4 @@
 import { AIInsight, Patient, ProgressData, PatientVitals, AdherenceData } from "@/types/doctor";
-import { ChartLine, TriangleAlert, UserCheck } from "lucide-react";
 
 // Extended mock data
 export const mockPatients: Patient[] = [
