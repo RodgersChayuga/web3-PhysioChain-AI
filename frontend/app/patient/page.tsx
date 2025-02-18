@@ -2,19 +2,11 @@
 
 import React, { useState } from 'react';
 import {
-  // BarChart, 
-  // Bar, 
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, PieChart, Pie, Cell, RadarChart, Radar, PolarGrid,
   PolarAngleAxis, PolarRadiusAxis
 } from 'recharts';
 import {
-  // Calendar, 
-  // AlertCircle, 
-  // Users, 
-  // TrendingUp, 
-  // ChevronDown, Play, Pause, RotateCcw, 
-  // ThumbsDown, 
   Bell, Settings,
   Activity,
   Award, Clock,

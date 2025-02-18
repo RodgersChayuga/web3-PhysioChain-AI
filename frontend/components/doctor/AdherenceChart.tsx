@@ -28,7 +28,17 @@ export const AdherenceChart: React.FC<AdherenceChartProps> = ({ data }) => {
     });
 
     // Custom Tooltip Component
-    const CustomTooltip = ({ active, payload }: { active: boolean, payload: any }) => {
+    const CustomTooltip = ({ active, payload }: {
+        active: boolean,
+        payload: {
+            value: number;
+            payload: {
+                name: string;
+                rate: number;
+                notes?: string;
+            };
+        }[] | undefined
+    }) => {
         if (active && payload && payload.length) {
             return (
                 <div className="bg-white shadow-lg p-2 rounded-md border">
