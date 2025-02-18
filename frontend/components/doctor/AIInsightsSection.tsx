@@ -1,8 +1,8 @@
 import React from "react";
 // import { FaChartLine, FaUserCheck, FaExclamationTriangle } from "lucide-react";
-import { InsightItem } from "./InsightItem";
 import { ChartLine, TriangleAlert, UserCheck } from "lucide-react";
 import { Card } from "../ui/card";
+import { InsightItem } from "./InsightItem";
 
 const AIInsightsSection: React.FC = () => {
     const insights = [
