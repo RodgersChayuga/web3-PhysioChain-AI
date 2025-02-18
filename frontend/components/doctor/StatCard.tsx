@@ -1,5 +1,5 @@
 import { StatCardProps } from "@/types/doctor";
-import React from 'react'
+import React from 'react';
 import { Card } from "../ui/card";
 
 export const StatCard: React.FC<StatCardProps> = ({ icon: Icon, title, value, trend }) => (

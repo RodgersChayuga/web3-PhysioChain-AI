@@ -28,7 +28,7 @@ export const AdherenceChart: React.FC<AdherenceChartProps> = ({ data }) => {
     });
 
     // Custom Tooltip Component
-    const CustomTooltip = ({ active, payload }: any) => {
+    const CustomTooltip = ({ active, payload }: { active: boolean, payload: any }) => {
         if (active && payload && payload.length) {
             return (
                 <div className="bg-white shadow-lg p-2 rounded-md border">
@@ -79,7 +79,7 @@ export const AdherenceChart: React.FC<AdherenceChartProps> = ({ data }) => {
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="name" />
                             <YAxis domain={[0, 100]} />
-                            <Tooltip content={<CustomTooltip />} />
+                            <Tooltip content={<CustomTooltip active={false} payload={undefined} />} />
                             <Line
                                 type="monotone"
                                 dataKey="rate"

@@ -1,5 +1,4 @@
-"use client"
-
+"use client";
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -10,9 +9,7 @@ import { ActivityItem } from "@/components/doctor/ActivityItem";
 import { TabValue } from "@/types/doctor";
 import AIInsightsSection from "@/components/doctor/AIInsightsSection";
 import PatientsTab from "@/components/PatientTab";
-import ComingSoonPage from "@/components/ComingSoon";
 import { adherenceData } from "@/lib/mock";
-import { Leaderboard } from "@/components/doctor/LeaderboardEntry";
 
 const Dashboard: React.FC = () => {
     const [activeTab, setActiveTab] = useState<TabValue>('overview');
