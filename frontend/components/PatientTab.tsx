@@ -41,7 +41,7 @@ const PatientsTab: React.FC = () => {
                             </div>
                             <Button className="gap-2">
                                 <Plus size={16} />
-                                Add New Patient
+                                Add New Patients
                             </Button>
                         </div>
                     </div>
